@@ -1,0 +1,32 @@
+name: Public deployment acceptance
+on:
+  workflow_dispatch:
+    inputs:
+      url:
+        description: Public full-stack deployment URL
+        required: true
+        default: https://kimi-event-metrics.vercel.app
+permissions:
+  contents: read
+jobs:
+  acceptance:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install playwright
+      - run: python -m playwright install --with-deps chromium
+      - name: Verify anonymous page and real backend
+        env:
+          DEMO_URL: ${{ inputs.url }}
+          QA_OUTPUT: public-qa-results
+        run: python scripts/public-qa.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: public-acceptance-evidence
+          path: public-qa-results
+          retention-days: 30
