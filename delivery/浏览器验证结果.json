@@ -1,0 +1,79 @@
+{
+  "url": "http://localhost:5180",
+  "workspace": "demo-c0a0c744",
+  "checks": [
+    {
+      "check": "自然语言识别、确认后建立真实任务",
+      "status": "PASS"
+    },
+    {
+      "check": "上游面板真实 HTTP 正常更新，更新时间且不发消息",
+      "status": "PASS"
+    },
+    {
+      "check": "离开委托会话后独立终端 HTTP 触发后台告警与未读",
+      "status": "PASS"
+    },
+    {
+      "check": "站内消息展开趋势、原始计数、平台范围和因果边界",
+      "status": "PASS"
+    },
+    {
+      "check": "继续拆分不伪造缺失维度，已知不等于恢复",
+      "status": "PASS"
+    },
+    {
+      "check": "重复幂等、不完整不发下跌消息且不恢复异常",
+      "status": "PASS"
+    },
+    {
+      "check": "旧日期旧版本不覆盖；恢复更新同一事项且只通知一次",
+      "status": "PASS"
+    },
+    {
+      "check": "刷新恢复消息、阅读状态和路由",
+      "status": "PASS"
+    },
+    {
+      "check": "自由输入与新建对话可操作，超出范围如实回复",
+      "status": "PASS"
+    },
+    {
+      "check": "暂停不分析；恢复只检查最新有效状态不补发过期告警",
+      "status": "PASS"
+    },
+    {
+      "check": "源失效可见，重连恢复真实状态",
+      "status": "PASS"
+    },
+    {
+      "check": "判断规则可简单调整并服务端保存",
+      "status": "PASS"
+    },
+    {
+      "check": "真实 API 修改或删除分组后分析同步变化",
+      "status": "PASS"
+    },
+    {
+      "check": "桌面与手机 6 种尺寸首页/任务/长分析无页面横向溢出",
+      "status": "PASS"
+    },
+    {
+      "check": "所有前台 GET 查询只读，不执行检测",
+      "status": "PASS"
+    },
+    {
+      "check": "浏览器未捕获 JavaScript 错误为 0",
+      "status": "PASS"
+    },
+    {
+      "check": "真实后端进程重启后 SQLite 恢复任务、事件与消息",
+      "status": "PASS"
+    },
+    {
+      "check": "修正长页消息列表位置，实际截图复核桌面和手机分析页",
+      "status": "PASS"
+    }
+  ],
+  "javascriptErrors": []
+}
