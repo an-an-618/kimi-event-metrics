@@ -87,6 +87,7 @@ function notify(s, incident, metric, evidence, type, now) {
 export function analyze(s, event, now) {
   const task = s.task
   const evidence = calculate(s, event, task.rules)
+  evidence.analyzedAt = now
   task.lastReceivedAt = now
   if (!evidence.sufficient) { task.dataStatus = 'insufficient'; task.dataReason = `只有 ${evidence.baseline.samples} 个同星期可比样本，需要 ${task.rules.samples} 个。`; log(s, 'insufficient', task.dataReason, event.business_date, now); return { status: 'insufficient', reason: task.dataReason } }
   task.dataStatus = 'valid'; task.dataReason = '数据完整且校验通过'; task.lastCheckedAt = now; task.lastSuccessfulDate = event.business_date; task.latestEvidence = evidence

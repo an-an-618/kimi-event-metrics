@@ -125,6 +125,8 @@ try:
         expect(page.locator(".evidence-panel")).to_contain_text("时间接近不构成因果证明")
         s = http("state")
         evidence = s["incidents"][0]["evidence"]
+        assert evidence.get("analyzedAt")
+        expect(page.locator(".evidence-source")).to_contain_text("分析更新")
         metric = next(m for m in evidence["metrics"] if m["key"] == "ctr")
         assert abs(metric["baseline"] - .08) < 1e-10
         assert abs(metric["current"] - .05) < 1e-10

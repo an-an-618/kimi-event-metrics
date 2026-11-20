@@ -2,7 +2,7 @@ export type Metric = { key: string; name: string; current: number; baseline: num
 export type Rules = { relativeDrop: number; absoluteDrop: number; recovery: number; samples: number; minDenominator: number }
 export type Counts = { dau: number; impressions: number; clicks: number; initiated: number; succeeded: number }
 export type Evidence = {
-  businessDate: string; sourceVersion: number; eventId: string; counts: Counts; rules: Rules;
+  businessDate: string; sourceVersion: number; eventId: string; counts: Counts; rules: Rules; analyzedAt?: string;
   baseline: { samples: number; dates: string[]; sums: Counts; observations: { date: string; ctr: number; dau: number; completion: number }[] };
   metrics: Metric[];
   groups: { valid: boolean; reason: string | null; rows: { name: string; impressions: number; clicks: number; baseline_impressions: number; baseline_clicks: number; rate: number; baselineRate: number; missingClicks: number }[] };
