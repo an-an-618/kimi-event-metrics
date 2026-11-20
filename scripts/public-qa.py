@@ -137,7 +137,12 @@ try:
         check("公网可复算基线、下降与分组证据", ctr=metric)
         page.get_by_role("button", name="继续拆分", exact=True).click()
         expect(page.locator(".split-note")).to_contain_text("没有应用版本")
-        page.get_by_role("button", name="已知，继续跟踪", exact=True).click()
+        with page.expect_response(
+            lambda response: "/api/incidents/" in response.url
+            and response.request.method == "POST", timeout=15000
+        ) as acknowledged:
+            page.get_by_role("button", name="已知，继续跟踪", exact=True).click()
+        assert acknowledged.value.status == 200
         assert http("state")["incidents"][0]["status"] == "known"
         check("缺失维度不伪造，已知不代表恢复")
 
@@ -192,7 +197,13 @@ try:
         expect(page.locator(".status")).to_contain_text("持续跟进中", timeout=15000)
         page.get_by_role("button", name="判断依据", exact=True).click()
         page.get_by_label("相对下降阈值").select_option("0.25")
-        page.get_by_role("button", name="保存调整", exact=True).click()
+        with page.expect_response(
+            lambda response: response.url.endswith("/rules")
+            and response.request.method == "POST", timeout=15000
+        ) as saved:
+            page.get_by_role("button", name="保存调整", exact=True).click()
+        assert saved.value.status == 200
+        expect(page.get_by_role("button", name="保存调整", exact=True)).not_to_be_visible(timeout=15000)
         assert http("state")["task"]["rules"]["relativeDrop"] == .25
         check("源失效可见、重连恢复、规则可调整并保存")
 
