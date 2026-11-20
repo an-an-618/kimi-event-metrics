@@ -6,6 +6,10 @@ on:
         description: Public full-stack deployment URL
         required: true
         default: https://kimi-event-metrics.vercel.app
+      expected_persistence:
+        description: Optional JSON signature from a previous successful run, to verify persistence after redeploy
+        required: false
+        default: ''
 permissions:
   contents: read
 jobs:
@@ -23,6 +27,7 @@ jobs:
         env:
           DEMO_URL: ${{ inputs.url }}
           QA_OUTPUT: public-qa-results
+          EXPECTED_PERSISTENCE: ${{ inputs.expected_persistence }}
         run: python scripts/public-qa.py
       - uses: actions/upload-artifact@v4
         if: always()

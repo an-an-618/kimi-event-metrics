@@ -46,6 +46,16 @@ def check(name, **evidence):
     print("PASS", name, flush=True)
 
 
+def persistence_signature(state, workspace):
+    return {
+        "workspace": workspace,
+        "task": state["task"]["id"] if state["task"] else None,
+        "incidents": [i["id"] for i in state["incidents"]],
+        "messages": [m["id"] for m in state["messages"]],
+        "events": [e["id"] for e in state["events"]],
+    }
+
+
 def screenshot(page, name):
     # Wait only for the finite entrance animation to finish before capturing pixels.
     page.locator("body").evaluate(
@@ -61,6 +71,12 @@ try:
     if BASE.startswith("https://"):
         assert health["storage"] == "postgres", health
     check("真实后端健康与持久化存储", health=health)
+    expected_persistence = os.environ.get("EXPECTED_PERSISTENCE", "").strip()
+    if expected_persistence:
+        previous = json.loads(expected_persistence)
+        persisted = http("state", workspace=previous["workspace"])
+        assert persistence_signature(persisted, previous["workspace"]) == previous
+        check("后端重新部署后原任务、事项、消息及事件标识完整保留")
     with sync_playwright() as playwright:
         browser = playwright.chromium.launch(headless=True)
         context = browser.new_context(viewport={"width": 1440, "height": 900})
@@ -229,3 +245,7 @@ finally:
     OUT.joinpath("results.json").write_text(json.dumps({
         "url": BASE, "workspace": KEY, "checks": results, "javascriptErrors": errors,
     }, ensure_ascii=False, indent=2))
+    if any(r["check"] == "浏览器 JavaScript 错误为 0" for r in results):
+        OUT.joinpath("persistence-signature.json").write_text(
+            json.dumps(persistence_signature(http("state"), KEY))
+        )
