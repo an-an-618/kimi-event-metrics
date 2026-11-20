@@ -141,6 +141,8 @@ curl -X POST 'http://localhost:5180/api/events/metrics' \
 
 2026-11-21（北京时间）完成[独立 Ubuntu / Chromium 公网验收](https://github.com/an-an-618/kimi-event-metrics/actions/runs/44805213328)：17 项全部通过，真实 PostgreSQL 持久化存储、HTTP webhook 与站内消息均在公网运行，114.48 秒 MP4 可播放。证据见 [公网机器结果](delivery/public/results.json)、[公网首页](delivery/public/01-public-home.png)、[后台提醒](delivery/public/03-public-background-alert.png)、[分析](delivery/public/04-public-analysis.png)、[手机分析](delivery/public/06-public-mobile-messages.png)。
 
+随后完成一次真正的 Vercel 后端重新部署，再用先前演示空间的任务、事项、消息与事件标识逐项核对，全部保留。包含这项验证的[第二次公网验收](https://github.com/an-an-618/kimi-event-metrics/actions/runs/44805622013)共 18 项全部通过，见 [重新部署验证结果](delivery/public/results-redeploy.json)。持久性检查先只读核对原演示空间，再在新的独立空间重跑主流程。
+
 尚未验证真实 Safari / Firefox、企业源数据、真实模型或线上用户效果。
 
 公网验收脚本 `scripts/public-qa.py` 从真实 Chromium 页面开始委托，通过独立 HTTP 客户端投递事件，并读取服务端状态。HTTPS 验收要求 `/api/health` 返回 `storage: postgres` 与 `persistent: true`；包含 17 项检查、并发重复投递、6 种视口与录屏实际播放。GitHub Actions 的 `Public deployment acceptance` 支持手动运行，截图和 JSON 结果保存为 `public-acceptance-evidence`。工作流成功结果才代表对应部署已通过验收。
@@ -165,4 +167,6 @@ tests/                数值与状态回归测试
 public/demo.html      内嵌录屏页
 public/demo/          真实录屏 MP4
 delivery/             真实截图和验证记录
+delivery/public/      公网截图、17 项验收与18 项重新部署验收证据
+scripts/public-qa.py   可重复执行的真实浏览器及 HTTP 公网验收
 ```

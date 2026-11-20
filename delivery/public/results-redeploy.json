@@ -1,0 +1,122 @@
+{
+  "url": "https://kimi-event-metrics.vercel.app",
+  "workspace": "qa-1567749e9fe44e24",
+  "checks": [
+    {
+      "check": "真实后端健康与持久化存储",
+      "status": "PASS",
+      "health": {
+        "ok": true,
+        "storage": "postgres",
+        "persistent": true,
+        "version": "1.0.0"
+      }
+    },
+    {
+      "check": "后端重新部署后原任务、事项、消息及事件标识完整保留",
+      "status": "PASS"
+    },
+    {
+      "check": "浏览器自然语言确认后建立服务端任务",
+      "status": "PASS"
+    },
+    {
+      "check": "演示面板真实 HTTP 正常更新且保持安静",
+      "status": "PASS"
+    },
+    {
+      "check": "另一个会话内收到独立 HTTP 事件产生的后台消息",
+      "status": "PASS"
+    },
+    {
+      "check": "公网可复算基线、下降与分组证据",
+      "status": "PASS",
+      "ctr": {
+        "key": "ctr",
+        "name": "内容点击率",
+        "current": 0.05,
+        "abnormal": true,
+        "baseline": 0.08,
+        "recovered": false,
+        "absoluteDrop": 0.03,
+        "relativeDrop": 0.375
+      }
+    },
+    {
+      "check": "缺失维度不伪造，已知不代表恢复",
+      "status": "PASS"
+    },
+    {
+      "check": "并发重复事件幂等且冲突内容返回 409",
+      "status": "PASS"
+    },
+    {
+      "check": "不完整不下跌告警、不恢复，旧日期不倒退",
+      "status": "PASS"
+    },
+    {
+      "check": "恢复沿用同事项、只通知一次且旧版本不能覆盖",
+      "status": "PASS"
+    },
+    {
+      "check": "刷新同步持久化任务、消息和阅读状态",
+      "status": "PASS"
+    },
+    {
+      "check": "自由输入可用；暂停不分析；恢复只检查最新状态",
+      "status": "PASS"
+    },
+    {
+      "check": "源失效可见、重连恢复、规则可调整并保存",
+      "status": "PASS"
+    },
+    {
+      "check": "删除或修改分组会真实改变分析",
+      "status": "PASS"
+    },
+    {
+      "check": "6 种桌面与手机尺寸无页面横向溢出",
+      "status": "PASS",
+      "viewports": [
+        [
+          1440,
+          900
+        ],
+        [
+          1280,
+          800
+        ],
+        [
+          1024,
+          768
+        ],
+        [
+          768,
+          1024
+        ],
+        [
+          390,
+          844
+        ],
+        [
+          320,
+          740
+        ]
+      ]
+    },
+    {
+      "check": "前台 GET 查询全部只读",
+      "status": "PASS"
+    },
+    {
+      "check": "公网 114 秒真实流程 MP4 可实际播放",
+      "status": "PASS",
+      "duration": 114.48
+    },
+    {
+      "check": "浏览器 JavaScript 错误为 0",
+      "status": "PASS"
+    }
+  ],
+  "javascriptErrors": []
+}
