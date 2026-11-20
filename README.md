@@ -9,7 +9,8 @@ Kimi AI 产品经理笔试第二题的可操作原型。用户用自然语言委
 - 本地完整前后端：`http://localhost:5180`
 - [114.48 秒真实主流程录屏](public/demo/main-flow.mp4)；启动后可打开 `/demo.html` 内嵌播放。
 - [首页](delivery/01-delegation.png) · [确认委托](delivery/02-confirmation.png) · [正常保持安静](delivery/03-normal-quiet.png) · [另一个会话收到告警](delivery/04-other-chat-alert.png) · [分析](delivery/05-alert-analysis.png) · [恢复](delivery/06-recovery.png) · [手机](delivery/07-mobile-analysis.png)
-- 公网地址将在部署和实际验证后补充。
+- 公网完整前后端：[kimi-event-metrics.vercel.app](https://kimi-event-metrics.vercel.app)
+- [公网录屏播放页](https://kimi-event-metrics.vercel.app/demo.html) · [GitHub 代码](https://github.com/an-an-618/kimi-event-metrics)
 
 ## 启动
 
@@ -50,6 +51,8 @@ Vercel 会部署 `api/index.mjs`，所有 `/api/*` 路径转入同一后端入�
 打开“演示数据源”→“从另一个终端投递”，复制当前演示空间标识。每个浏览器使用独立标识；curl 不带该请求头时会使用 `demo` 空间，不能触发另一个浏览器空间的任务。
 
 将 `<当前演示空间>` 替换为面板显示的值：
+
+公网投递时，将以下命令中的 `http://localhost:5180` 替换为 `https://kimi-event-metrics.vercel.app`。请求头与 JSON 不变。
 
 ```bash
 curl -X POST 'http://localhost:5180/api/events/metrics' \
@@ -135,6 +138,14 @@ curl -X POST 'http://localhost:5180/api/events/metrics' \
 已验证：自然语言确认后建任务、正常安静、切换会话后后台触发、可复算分析、缺失维度不伪造、确认不恢复、重复 / 不完整 / 旧日期 / 旧版本、同事项恢复与重复恢复、刷新状态、自由输入、暂停与只查最新、连接失效 / 重连、阈值保存、删除与修改分组、GET 不触发检测、SQLite 重启恢复、实际截图布局复核。浏览器未捕获 JavaScript 错误为 0。完整机器结果见 [浏览器验证结果](delivery/浏览器验证结果.json)。
 
 尚未验证真实 Safari / Firefox、企业源数据、真实模型或线上用户效果。部署验证会单独记录，不能把本地验证当成公网验收。
+
+公网验收脚本 `scripts/public-qa.py` 从真实 Chromium 页面开始委托，通过独立 HTTP 客户端投递事件，并读取服务端状态。HTTPS 验收要求 `/api/health` 返回 `storage: postgres` 与 `persistent: true`；包含 17 项检查、并发重复投递、6 种视口与录屏实际播放。GitHub Actions 的 `Public deployment acceptance` 支持手动运行，截图和 JSON 结果保存为 `public-acceptance-evidence`。工作流成功结果才代表对应部署已通过验收。
+
+```bash
+python -m pip install playwright
+python -m playwright install chromium
+DEMO_URL=https://kimi-event-metrics.vercel.app python scripts/public-qa.py
+```
 
 ## 代码
 
