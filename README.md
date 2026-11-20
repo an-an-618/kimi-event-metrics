@@ -34,6 +34,8 @@ npm start
 
 Vercel 会部署 `api/index.mjs`，所有 `/api/*` 路径转入同一后端入口。在 webhook 请求内完成处理，不使用响应结束后的计时器或不可靠后台任务。**Vercel 必须连接 PostgreSQL 才保证跨实例持久化；没有数据库时会清楚显示临时 SQLite 的限制，冷启动或扩容可能丢失状态。** 本地进程停止或电脑关机后不再接收事件。
 
+本项目公网部署已连接独立 Neon PostgreSQL 免费数据库，真实健康检查返回 `storage: postgres`、`persistent: true`；不依赖本地电脑持续运行。免费服务可能存在冷启动延迟，不承诺生产服务等级。
+
 ## 主流程
 
 1. 首页编辑预置自然语言委托，发送后核对目标、数据源、同星期比较与只读分析权限。
@@ -137,7 +139,9 @@ curl -X POST 'http://localhost:5180/api/events/metrics' \
 
 已验证：自然语言确认后建任务、正常安静、切换会话后后台触发、可复算分析、缺失维度不伪造、确认不恢复、重复 / 不完整 / 旧日期 / 旧版本、同事项恢复与重复恢复、刷新状态、自由输入、暂停与只查最新、连接失效 / 重连、阈值保存、删除与修改分组、GET 不触发检测、SQLite 重启恢复、实际截图布局复核。浏览器未捕获 JavaScript 错误为 0。完整机器结果见 [浏览器验证结果](delivery/浏览器验证结果.json)。
 
-尚未验证真实 Safari / Firefox、企业源数据、真实模型或线上用户效果。部署验证会单独记录，不能把本地验证当成公网验收。
+2026-11-21（北京时间）完成[独立 Ubuntu / Chromium 公网验收](https://github.com/an-an-618/kimi-event-metrics/actions/runs/44805213328)：17 项全部通过，真实 PostgreSQL 持久化存储、HTTP webhook 与站内消息均在公网运行，114.48 秒 MP4 可播放。证据见 [公网机器结果](delivery/public/results.json)、[公网首页](delivery/public/01-public-home.png)、[后台提醒](delivery/public/03-public-background-alert.png)、[分析](delivery/public/04-public-analysis.png)、[手机分析](delivery/public/06-public-mobile-messages.png)。
+
+尚未验证真实 Safari / Firefox、企业源数据、真实模型或线上用户效果。
 
 公网验收脚本 `scripts/public-qa.py` 从真实 Chromium 页面开始委托，通过独立 HTTP 客户端投递事件，并读取服务端状态。HTTPS 验收要求 `/api/health` 返回 `storage: postgres` 与 `persistent: true`；包含 17 项检查、并发重复投递、6 种视口与录屏实际播放。GitHub Actions 的 `Public deployment acceptance` 支持手动运行，截图和 JSON 结果保存为 `public-acceptance-evidence`。工作流成功结果才代表对应部署已通过验收。
 
