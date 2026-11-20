@@ -143,6 +143,8 @@ curl -X POST 'http://localhost:5180/api/events/metrics' \
 
 随后完成一次真正的 Vercel 后端重新部署，再用先前演示空间的任务、事项、消息与事件标识逐项核对，全部保留。包含这项验证的[第二次公网验收](https://github.com/an-an-618/kimi-event-metrics/actions/runs/44805622013)共 18 项全部通过，见 [重新部署验证结果](delivery/public/results-redeploy.json)。持久性检查先只读核对原演示空间，再在新的独立空间重跑主流程。
 
+最终版补齐了服务端保存的分析更新时间，并让浏览器验收等待保存请求实际完成后再读回状态。[最终公网验收](https://github.com/an-an-618/kimi-event-metrics/actions/runs/44806567242)18 项全部通过，见 [最终机器结果](delivery/public/results-final.json)。公网截图已更新为此次实际验收的截图。
+
 尚未验证真实 Safari / Firefox、企业源数据、真实模型或线上用户效果。
 
 公网验收脚本 `scripts/public-qa.py` 从真实 Chromium 页面开始委托，通过独立 HTTP 客户端投递事件，并读取服务端状态。HTTPS 验收要求 `/api/health` 返回 `storage: postgres` 与 `persistent: true`；包含 17 项检查、并发重复投递、6 种视口与录屏实际播放。GitHub Actions 的 `Public deployment acceptance` 支持手动运行，截图和 JSON 结果保存为 `public-acceptance-evidence`。工作流成功结果才代表对应部署已通过验收。
